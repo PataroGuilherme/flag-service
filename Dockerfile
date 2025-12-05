@@ -1,23 +1,18 @@
-# Imagem base do Python
 FROM python:3.10-slim
 
-# Diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia apenas o arquivo de dependências
 COPY requirements.txt .
-
-# Instala as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia todo o código (inclui app.py e pasta db/)
 COPY . .
 
-# Expõe as portas solicitadas
-EXPOSE 8000
-EXPOSE 8080
-EXPOSE 80
-EXPOSE 443
+ENV DB_HOST=flag-db
+ENV DB_PORT=5432
+ENV DB_USER=postgres
+ENV DB_PASS=postgres
+ENV DB_NAME=flagdb
 
-# Comando de inicialização
+EXPOSE 8000 8080 80 443
+
 CMD ["python", "app.py"]
